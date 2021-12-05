@@ -7,10 +7,10 @@ from music import MusicCtrlr
 from const import SCREEN_WIDTH, SCREEN_HEIGHT
 
 
-
-
 def main():
     '''main'''
+    pygame.mixer.init()
+    pygame.mixer.set_num_channels(8)
     pygame.init()
     pygame.fastevent.init()
     pygame.mouse.set_visible(False)
