@@ -44,6 +44,7 @@ def main():
         canvas.tick(delta)
         human.tick(delta)
         midibo.tick(delta)
+        music.tick(delta)
 
         if human.duration[0] > 1 and not human.pressed[0]:
             print(human.duration[0])
@@ -65,7 +66,7 @@ def main():
         canvas.draw(screen)
         human.draw(screen)
         midibo.draw(screen)
-        music.draw(screen)
+        music.draw(screen, canvas.get_current)
 
         pygame.display.update()
 

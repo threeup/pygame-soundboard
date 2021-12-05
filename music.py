@@ -36,7 +36,7 @@ class MusicCtrlr(Ctrlr):
             self.sounds.append(bank_sounds)
             self.is_playing.append(toggles)
 
-    def draw(self, screen):
+    def draw(self, screen, get_current):
 
         for idx_bank in range(len(self.is_playing)):
             playing = self.is_playing[idx_bank]
@@ -45,12 +45,26 @@ class MusicCtrlr(Ctrlr):
                     idx_bank, idx_slot, 1, 1, self)
                 spot = pygame.Rect(left_coord, size_coord)
                 spot = spot.inflate(-15, -15)
-                if(playing[idx_slot]):
-                    pygame.draw.rect(screen, (0, 255, 0), spot)
-                elif idx_slot % 2 == 0:
-                    pygame.draw.rect(screen, (0, 35, 0), spot)
+                if idx_slot % 2 == 0:
+                    pygame.draw.rect(screen, (30, 35, 30), spot)
                 else:
                     pygame.draw.rect(screen, (20, 20, 20), spot)
+                
+        for i in range(3):
+            (row,col) = get_current(i)
+            (left_coord, size_coord) = rect_to_draw(
+                row, col, 1, 1, self)
+            spot = pygame.Rect(left_coord, size_coord)
+            spot = spot.inflate(-15, -15)
+            amt = 100
+            if(self.is_playing[row][col]):
+                amt = 255
+            if i % 3 == 0:
+                pygame.draw.rect(screen, (amt, amt, 0), spot)
+            elif i % 3 == 1:
+                pygame.draw.rect(screen, (0, amt, 0), spot)
+            else:
+                pygame.draw.rect(screen, (0, 0, amt), spot)
 
     def play(self, bank, slot):
         if not self.is_playing[bank][slot]:
@@ -67,3 +81,7 @@ class MusicCtrlr(Ctrlr):
             bank = self.sounds[idx_bank]
             for idx_slot in range(len(bank)):
                 self.stop(idx_bank, idx_slot)
+
+    def tick(self, delta):
+        if not pygame.mixer.get_busy():
+            self.stop_all()
