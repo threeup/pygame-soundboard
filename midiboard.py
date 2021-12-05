@@ -16,7 +16,9 @@ class MidiBoardCtrlr(Ctrlr):
         # self.print_device_info()
         pygame.midi.init()
         input_id = pygame.midi.get_default_input_id()
-        self.inpdevice = pygame.midi.Input(input_id)
+        self.inpdevice = None
+        if input_id >= 0:
+            self.inpdevice = pygame.midi.Input(input_id)
 
     def print_device_info(self):
         pygame.midi.init()

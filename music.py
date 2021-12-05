@@ -15,6 +15,7 @@ class MusicCtrlr(Ctrlr):
     def __init__(self):
         Ctrlr.__init__(self)
 
+        self.font = pygame.font.SysFont(None, 48)
         self.sounds = []
         self.is_playing = []
         self.channels = []
@@ -40,7 +41,7 @@ class MusicCtrlr(Ctrlr):
             self.is_playing.append(toggles)
 
     def draw(self, screen, get_current):
-
+        debug = None
         main_row, first_col = get_current(0)
         main_row, last_col = get_current(3)
         for idx_bank in range(len(self.is_playing)):
@@ -49,9 +50,11 @@ class MusicCtrlr(Ctrlr):
                 (left_coord, size_coord) = rect_to_draw(
                     idx_bank, idx_slot, 1, 1, self)
                 spot = pygame.Rect(left_coord, size_coord)
+                pygame.draw.circle(screen, (100, 100, 100), left_coord, 25)
                 spot = spot.inflate(-8, -8)
                 amt = 25
                 if(self.is_playing[idx_bank][idx_slot]):
+                    debug = spot
                     amt = 85
                 if idx_bank == main_row and idx_slot >= first_col and idx_slot < last_col:
                     amt *= 3
@@ -66,8 +69,12 @@ class MusicCtrlr(Ctrlr):
                     if idx_slot % 2 == 0:
                         pygame.draw.rect(screen, (amt, amt, amt), spot)
                     else:
-                        pygame.draw.rect(screen, (amt-10, amt-10, amt-10), spot)
-                
+                        pygame.draw.rect(
+                            screen, (amt-10, amt-10, amt-10), spot)
+        if debug != None:
+            debugtext = "box" + str(debug.center) + "sz"+str(debug.size)
+            img = self.font.render(debugtext, True,  (200, 255, 200))
+            screen.blit(img, (20, 20))
 
     def play(self, bank, slot):
         if not self.is_playing[bank][slot]:
@@ -92,7 +99,7 @@ class MusicCtrlr(Ctrlr):
             bank = self.sounds[idx_bank]
             for idx_slot in range(len(bank)):
                 if self.is_playing[idx_bank][idx_slot]:
-                    chidx = idx_slot%8
+                    chidx = idx_slot % 8
                     if not self.channels[chidx].get_busy():
                         self.stop(idx_bank, idx_slot)
 
