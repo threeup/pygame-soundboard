@@ -75,10 +75,13 @@ class MusicCtrlr(Ctrlr):
         #     screen.blit(img, (20, 20))
 
     def play(self, bank, slot):
-        if not self.is_playing[bank][slot]:
-            chidx = slot % 8
-            self.channels[chidx].play(self.sounds[bank][slot])
-            self.is_playing[bank][slot] = True
+        if self.is_playing[bank][slot]:
+            return False
+
+        chidx = slot % 8
+        self.channels[chidx].play(self.sounds[bank][slot])
+        self.is_playing[bank][slot] = True
+        return True
 
     def stop(self, bank, slot):
         if self.is_playing[bank][slot]:

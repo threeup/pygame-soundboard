@@ -24,7 +24,6 @@ class CanvasCtrlr(Ctrlr):
     def draw(self, screen):
         screen.blit(self.bg, (0, 0))
         RED = (255, 0,   0)
-        #row_len = len(self.music.sounds[self.current_row])
         (left_coord, size_coord) = rect_to_draw(
             self.current_row, self.current_col, 3, 1, self.music)
         row = pygame.Rect(left_coord, size_coord)
