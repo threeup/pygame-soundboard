@@ -15,6 +15,10 @@ def coord_to_draw(row, col, total_cols, m):
 def coord_subtract(lhs, rhs):
     return (lhs[0]-rhs[0], lhs[1]-rhs[1])
 
+def coord_add(lhs, rhs):
+    return (lhs[0]+rhs[0], lhs[1]+rhs[1])
+
+
 
 def coord_average(lhs, rhs):
     return ((lhs[0]+rhs[0])/2, (lhs[1]+rhs[1])/2)
