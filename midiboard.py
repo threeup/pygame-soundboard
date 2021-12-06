@@ -37,13 +37,14 @@ class MidiBoardCtrlr(Ctrlr):
         pygame.midi.quit()
 
     def handle_event(self, event):
-        if event.type == pygame.MIDIIN:
-            if event.status == 144:
-                # pygame.midi.midis2events.NOTE_ON:
-                self.key_velocities.update({event.data1: event.data2})
-            elif event.status == 128:
-                # pygame.midi.midis2events.NOTE_OFF:
-                self.key_velocities.pop(event.data1)
+        BLUE = (0,   0, 255)
+        # if event.type == pygame.MIDIIN:
+        #     if event.status == 144:
+        #         # pygame.midi.midis2events.NOTE_ON:
+        #         self.key_velocities.update({event.data1: event.data2})
+        #     elif event.status == 128:
+        #         # pygame.midi.midis2events.NOTE_OFF:
+        #         self.key_velocities.pop(event.data1)
 
     def draw(self, screen):
         BLUE = (0,   0, 255)

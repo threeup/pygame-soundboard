@@ -7,9 +7,9 @@ def coord_to_draw(row, col, total_cols, m):
     total_rows = len(m.sounds)
     if total_cols is None:
         total_cols = len(m.sounds[row])
-    rowpercent = row/total_rows
-    colpercent = col/total_cols
-    return (SCREEN_WIDTH*colpercent, SCREEN_HEIGHT*rowpercent)
+    rowpercent = (row*100)/total_rows
+    colpercent = (col*100)/total_cols
+    return (SCREEN_WIDTH*colpercent/100, SCREEN_HEIGHT*rowpercent/100)
 
 
 def coord_subtract(lhs, rhs):
