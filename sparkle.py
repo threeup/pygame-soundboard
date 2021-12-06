@@ -36,7 +36,6 @@ class Sparkle:
 
 
     def draw(self, screen):
-        print(self.pos)
         screen.blit(self.img, self.pos)
         
 

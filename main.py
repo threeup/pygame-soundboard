@@ -57,6 +57,7 @@ def main():
             print(human.duration[0])
             if human.duration[0] > 500:
                 canvas.advance_row()
+                canvas.slide_row() 
             else:
                 canvas.slide_row() 
         else:
@@ -77,10 +78,15 @@ def main():
                     s = Sparkle(pos,bank)
                     sparkles.append(s)
 
-        canvas.draw(screen)
+        canvas.drawbg(screen)
+        musicbgrect =  pygame.Rect((0,0), (SCREEN_WIDTH, SCREEN_HEIGHT))
+        musicbgsurf = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+        music.drawbg(musicbgsurf)
+        screen.blit(musicbgsurf, musicbgrect)
         human.draw(screen)
         midibo.draw(screen)
-        music.draw(screen, canvas.get_current)
+        canvas.drawfg(screen)
+        music.drawfg(screen, canvas.get_current)
         for sparkle in sparkles:
             sparkle.draw(screen)
             

@@ -40,7 +40,25 @@ class MusicCtrlr(Ctrlr):
             self.sounds.append(bank_sounds)
             self.is_playing.append(toggles)
 
-    def draw(self, screen, get_current):
+    def drawbg(self, surf):
+        for idx_bank in range(len(self.is_playing)):
+            playing = self.is_playing[idx_bank]
+            for idx_slot in range(len(playing)):
+                (left_coord, size_coord) = rect_to_draw(
+                    idx_bank, idx_slot, 1, 1, self)
+                spot = pygame.Rect(left_coord, size_coord)
+                if size_coord[0] > 30:
+                    spot = spot.inflate(-25,0)
+                if size_coord[1] > 30:
+                    spot = spot.inflate(0,-25)
+                amt = 70
+                if idx_slot % 2 == 0:
+                    pygame.draw.rect(surf, (amt, amt, amt, 220), spot)
+                else:
+                    pygame.draw.rect(
+                        surf, (amt-10, amt-10, amt-10, 220), spot)
+    
+    def drawfg(self, screen, get_current):
         debug = None
         main_row, first_col = get_current(0)
         main_row, last_col = get_current(3)
@@ -51,11 +69,10 @@ class MusicCtrlr(Ctrlr):
                     idx_bank, idx_slot, 1, 1, self)
                 spot = pygame.Rect(left_coord, size_coord)
                 spot = spot.inflate(-8, -8)
-                amt = 25
+                amt = 120
                 if(self.is_playing[idx_bank][idx_slot]):
-                    amt = 85
+                    amt = 255
                 if idx_bank == main_row and idx_slot >= first_col and idx_slot < last_col:
-                    amt *= 3
                     relative_slot = idx_slot-first_col
                     if relative_slot % 3 == 0:
                         pygame.draw.rect(screen, (amt, amt, 0), spot)
@@ -63,18 +80,16 @@ class MusicCtrlr(Ctrlr):
                         pygame.draw.rect(screen, (0, amt, 0), spot)
                     else:
                         pygame.draw.rect(screen, (0, 0, amt), spot)
-                else:
-                    if idx_slot % 2 == 0:
-                        pygame.draw.rect(screen, (amt, amt, amt), spot)
-                    else:
-                        pygame.draw.rect(
-                            screen, (amt-10, amt-10, amt-10), spot)
-        # if debug != None:
-        #     debugtext = "box" + str(debug.center) + "sz"+str(debug.size)
-        #     img = self.font.render(debugtext, True,  (200, 255, 200))
-        #     screen.blit(img, (20, 20))
+        if debug != None:
+            debugtext = "box" + str(debug.center) + "sz"+str(debug.size)
+            img = self.font.render(debugtext, True,  (200, 255, 200))
+            screen.blit(img, (20, 20))
 
     def play(self, bank, slot):
+        if bank >= len(self.is_playing):
+            return False
+        if slot >= len(self.is_playing[bank]):
+            return False
         if self.is_playing[bank][slot]:
             return False
 
